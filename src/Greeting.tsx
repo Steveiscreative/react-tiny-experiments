@@ -11,12 +11,19 @@
 type GreetingProps = {
   greet?: string;
   name: string;
+  isLoggedIn: boolean;
 };
 
-export default function Greeting({ greet = "Welcome", name }: GreetingProps) {
+export default function Greeting({
+  greet = "Welcome",
+  name,
+  isLoggedIn = false,
+}: GreetingProps) {
+  const isFriendlyHello = greet.toLowerCase() == "hello";
   return (
     <h1>
-      {greet}, {name}
+      {greet}, {name} {isFriendlyHello ? "👋🏾" : ""}
+      {isLoggedIn ? "" : "(Please log in)"}
     </h1>
   );
 }

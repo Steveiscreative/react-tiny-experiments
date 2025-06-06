@@ -10,8 +10,9 @@ function App() {
   return (
     <>
       <div>
-        <Greeting greet="Hello" name="Steve" />
-        <Greeting greet="Hi" name="Bob" />
+        <Greeting greet="Hello" name="Steve" isLoggedIn={false} />
+        <Greeting greet="Hi" name="Bob" isLoggedIn={true} />
+        <Greeting greet="Hi" name="Aaron" isLoggedIn={false} />
       </div>
     </>
   );
