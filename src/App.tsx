@@ -11,6 +11,7 @@ function App() {
     <>
       <div>
         <Greeting greet="Hello" name="Steve" />
+        <Greeting greet="Hi" name="Bob" />
       </div>
     </>
   );
