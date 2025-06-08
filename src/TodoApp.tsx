@@ -41,21 +41,26 @@ export default function TodoApp() {
   }, [tasks]);
 
   return (
-    <div className="Todo">
-      <div>
+    <div className="Todo w-lg m-auto pt-5">
+      <div className="flex justify-between bg-gray-100 p-3 mb-2">
         {" "}
         <input
           value={newText}
           onChange={(e) => setNewText(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           placeholder="Add Task"
+          className="w-3/4"
         />
-        <button onClick={handleAdd}>Add</button>
+        <button
+          className="bg-blue-500 py-1 px-4 cursor-pointer text-white"
+          onClick={handleAdd}
+        >
+          Add
+        </button>
       </div>
       <ul>
         {tasks.map((task) => (
-          <li key={task.id}>
-            {" "}
+          <li key={task.id} className="border-b border-gray-100 py-2">
             <input
               onChange={() => updateCompleteStatus(task.id)}
               type="checkbox"
