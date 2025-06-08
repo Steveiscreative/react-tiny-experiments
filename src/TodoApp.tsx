@@ -1,21 +1,19 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface Task {
-  id: string;
+  id: number;
   text: string;
   completed: boolean;
 }
 
 export default function TodoApp() {
   const [newText, setNewText] = useState("");
-  const [tasks, setTasks] = useState([
-    {
-      id: 1,
-      text: "Read Book",
-      completed: true,
-    },
-  ]);
+
+  const [tasks, setTasks] = useState<Task[]>(() => {
+    const saved = localStorage.getItem("my-todo-list");
+    return saved ? JSON.parse(saved) : [];
+  });
 
   function updateCompleteStatus(id: number) {
     setTasks(
@@ -37,6 +35,10 @@ export default function TodoApp() {
 
     setNewText("");
   }
+
+  useEffect(() => {
+    localStorage.setItem("my-todo-list", JSON.stringify(tasks));
+  }, [tasks]);
 
   return (
     <div className="Todo">
