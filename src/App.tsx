@@ -7,8 +7,14 @@ import Greeting from "./Greeting";
 function App() {
   return (
     <>
-      <Greeting greet="Hello" name="Steve" isLoggedIn={true} />
-      <Counter />
+      <div>
+        <h2 className="">Day 1</h2>
+        <Greeting greet="Hello" name="Steve" isLoggedIn={true} />
+      </div>
+      <div>
+        <h2 className="">Day 2</h2>
+        <Counter />
+      </div>
     </>
   );
 }
