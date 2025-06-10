@@ -1,8 +1,7 @@
-import { useState } from "react";
-
 import "./App.css";
 import Counter from "./Counter";
 import Greeting from "./Greeting";
+import TodoApp from "./TodoApp";
 
 function App() {
   return (
@@ -14,6 +13,9 @@ function App() {
       <div>
         <h2 className="">Day 2</h2>
         <Counter />
+      </div>
+      <div>
+        <TodoApp />
       </div>
     </>
   );
