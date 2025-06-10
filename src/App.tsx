@@ -7,19 +7,19 @@ import RandomUser from "./Components/RandomUser";
 function App() {
   return (
     <>
-      <div>
+      <div className="section">
         <h2 className="">Day 1</h2>
         <Greeting greet="Hello" name="Steve" isLoggedIn={true} />
       </div>
-      <div>
+      <div className="section bg-gray-100">
         <h2 className="">Day 2</h2>
         <Counter />
       </div>
-      <div>
+      <div className="section">
         <h2 className="">Day 3</h2>
         <TodoApp />
       </div>
-      <div>
+      <div className="section bg-gray-100">
         <h2 className="">Day 4</h2>
         <RandomUser />
       </div>

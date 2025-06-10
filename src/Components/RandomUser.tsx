@@ -76,7 +76,7 @@ export default function RandomUser() {
     return <div>{errors}</div>;
   } else {
     return (
-      <>
+      <div className="w-2/5 m-auto p-2 flex flex-col align-middle">
         <div>
           <div className="image">
             <img alt="Profile Image" className="rounded" src={user.image} />
@@ -89,7 +89,7 @@ export default function RandomUser() {
             {isLoading ? "Loading..." : "Fetch User"}
           </button>
         </div>
-      </>
+      </div>
     );
   }
   //   return (
