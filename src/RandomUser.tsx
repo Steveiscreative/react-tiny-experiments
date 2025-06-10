@@ -22,13 +22,20 @@ Learn how to use `useEffect` for side effects, handle asynchronous fetch logic i
 import { useEffect, useState } from "react";
 
 export default function RandomUser() {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<null | {
+    name: string;
+    email: string;
+    image: string;
+  }>();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async () => {
+    setErrors("");
+    setIsLoading(true);
     try {
       const response = await fetch("https://randomuser.me/api/");
+
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -44,7 +51,9 @@ export default function RandomUser() {
     } catch (error) {
       setErrors(error.message);
     } finally {
-      setIsLoading(false);
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 500);
     }
   };
 
@@ -53,7 +62,16 @@ export default function RandomUser() {
   }, []);
 
   if (isLoading) {
-    return <p>Loading</p>;
+    return (
+      <>
+        <p>Loading</p>
+        <div className="action">
+          <button disabled={isLoading} onClick={fetchUser}>
+            {isLoading ? "Loading..." : "Fetch User"}
+          </button>
+        </div>
+      </>
+    );
   } else if (errors) {
     return <div>{errors}</div>;
   } else {
@@ -68,7 +86,7 @@ export default function RandomUser() {
         </div>
         <div className="action">
           <button disabled={isLoading} onClick={fetchUser}>
-            Fetch User
+            {isLoading ? "Loading..." : "Fetch User"}
           </button>
         </div>
       </>
