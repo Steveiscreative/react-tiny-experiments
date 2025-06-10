@@ -23,44 +23,62 @@ import { useEffect, useState } from "react";
 
 export default function RandomUser() {
   const [user, setUser] = useState({});
-
-  function isEmpty(obj) {
-    return Object.keys(obj).length === 0;
-  }
+  const [errors, setErrors] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchUser = async () => {
-    const response = await fetch("https://randomuser.me/api/");
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+    try {
+      const response = await fetch("https://randomuser.me/api/");
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+
+      const json = await response.json();
+      const result = json.results[0];
+
+      setUser({
+        name: `${result.name.first} ${result.name.last}`,
+        email: result.email,
+        image: result.picture.medium,
+      });
+    } catch (error) {
+      setErrors(error.message);
+    } finally {
+      setIsLoading(false);
     }
-
-    const json = await response.json();
-    const result = json.results[0];
-
-    setUser({
-      name: `${result.name.first} ${result.name.last}`,
-      email: result.email,
-      image: result.picture.medium,
-    });
   };
 
   useEffect(() => {
-    fetchUser().catch(console.error);
+    fetchUser();
   }, []);
 
-  return (
-    <>
-      {isEmpty(user) ? <div>loading</div> : ""}
-      <div>
-        <div className="image">
-          <img className="rounded" src={user.image} />
+  if (isLoading) {
+    return <p>Loading</p>;
+  } else if (errors) {
+    return <div>{errors}</div>;
+  } else {
+    return (
+      <>
+        <div>
+          <div className="image">
+            <img alt="Profile Image" className="rounded" src={user.image} />
+          </div>
+          <div className="name">{user.name}</div>
+          <div>{user.email}</div>
         </div>
-        <div className="name">{user.name}</div>
-        <div>{user.email}</div>
-      </div>
-      <div className="action">
-        <button onClick={fetchUser}>Fetch User</button>
-      </div>
-    </>
-  );
+        <div className="action">
+          <button disabled={isLoading} onClick={fetchUser}>
+            Fetch User
+          </button>
+        </div>
+      </>
+    );
+  }
+  //   return (
+  //     <>
+  //       {errors ? <div>{errors}</div> : ""}
+  //       {isLoading ? "Loading" : ""}
+  //
+  //     </>
+  //   );
 }
