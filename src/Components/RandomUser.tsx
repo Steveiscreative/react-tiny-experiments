@@ -19,7 +19,39 @@ Learn how to use `useEffect` for side effects, handle asynchronous fetch logic i
 
 "use strict";
 
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ThemeContext } from "../App";
+
+function LoadingUI() {
+  return <div>Loading</div>;
+}
+
+function ErrorUI({ error }) {
+  return <div className="bg-red-500 text-white p-3">{error}</div>;
+}
+
+function DataUI({ user, loading, fn }) {
+  return (
+    <div className="w-2/5 m-auto p-2 flex flex-col align-middle">
+      <div className="flex flex-col gap-1">
+        <div className="flex justify-center">
+          <img alt="Profile Image" className="rounded" src={user.image} />
+        </div>
+        <div className="name">{user.name}</div>
+        <div>{user.email}</div>
+      </div>
+      <div className="action mt-2">
+        <button
+          disabled={loading}
+          onClick={fn}
+          className="bg-blue-700 px-4 py-3  cursor-pointer hover:bg-blue-500 rounded transition-all"
+        >
+          {loading ? "Loading..." : "Fetch User"}
+        </button>
+      </div>
+    </div>
+  );
+}
 
 export default function RandomUser() {
   const [user, setUser] = useState<null | {
@@ -29,6 +61,7 @@ export default function RandomUser() {
   }>();
   const [errors, setErrors] = useState("");
   const [isLoading, setIsLoading] = useState(true);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   const fetchUser = async () => {
     setErrors("");
@@ -61,37 +94,55 @@ export default function RandomUser() {
     fetchUser();
   }, []);
 
-  if (isLoading) {
-    return (
-      <>
-        <p>Loading</p>
-        <div className="action">
-          <button disabled={isLoading} onClick={fetchUser}>
-            {isLoading ? "Loading..." : "Fetch User"}
-          </button>
-        </div>
-      </>
-    );
-  } else if (errors) {
-    return <div>{errors}</div>;
-  } else {
-    return (
-      <div className="w-2/5 m-auto p-2 flex flex-col align-middle">
-        <div>
-          <div className="image">
-            <img alt="Profile Image" className="rounded" src={user.image} />
-          </div>
-          <div className="name">{user.name}</div>
-          <div>{user.email}</div>
-        </div>
-        <div className="action">
-          <button disabled={isLoading} onClick={fetchUser}>
-            {isLoading ? "Loading..." : "Fetch User"}
-          </button>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <section className={`section section-${theme}`}>
+      <div>Day 4</div>
+      {isLoading ? (
+        <LoadingUI />
+      ) : errors ? (
+        <ErrorUI error={errors} />
+      ) : (
+        <DataUI user={user} loading={isLoading} fn={fetchUser} />
+      )}
+    </section>
+  );
+  // if (isLoading) {
+  //   return (
+  //     <div>
+  //       <p>Loading</p>
+  //       <div className="action">
+  //         <button disabled={isLoading} onClick={fetchUser}>
+  //           {isLoading ? "Loading..." : "Fetch User"}
+  //         </button>
+  //       </div>
+  //     </div>
+  //   );
+  // } else if (errors) {
+  //   return <div>{errors}</div>;
+  // } else {
+  //   return (
+  //     <div className={`section section-${theme}`}>
+  // <div className="w-2/5 m-auto p-2 flex flex-col align-middle">
+  //   <div className="flex flex-col gap-1">
+  //     <div className="flex justify-center">
+  //       <img alt="Profile Image" className="rounded" src={user.image} />
+  //     </div>
+  //     <div className="name">{user.name}</div>
+  //     <div>{user.email}</div>
+  //   </div>
+  //   <div className="action mt-2">
+  //     <button
+  //       disabled={isLoading}
+  //       onClick={fetchUser}
+  //       className="bg-blue-700 px-4 py-3  cursor-pointer hover:bg-blue-500 rounded transition-all"
+  //     >
+  //       {isLoading ? "Loading..." : "Fetch User"}
+  //     </button>
+  //   </div>
+  // </div>
+  //     </div>
+  //   );
+  // }
   //   return (
   //     <>
   //       {errors ? <div>{errors}</div> : ""}

@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
+import { ThemeContext } from "../App";
 
 interface Task {
   id: number;
@@ -8,6 +9,7 @@ interface Task {
 }
 
 export default function TodoApp() {
+  const { theme, setTheme } = useContext(ThemeContext);
   const [newText, setNewText] = useState("");
   const [isSaving, setIsSaving] = useState(false);
   const [tasks, setTasks] = useState<Task[]>(() => {
@@ -50,57 +52,60 @@ export default function TodoApp() {
   }, [tasks]);
 
   return (
-    <div className="Todo w-lg m-auto pt-5">
-      <div className="uppercase text-xs mb-1">
-        {isSaving ? "Saving" : "Saved"}
-      </div>
-      <div className="flex justify-between bg-gray-100 p-3 mb-2">
-        {" "}
-        <input
-          value={newText}
-          onChange={(e) => setNewText(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAdd()}
-          placeholder="Add Task"
-          className="w-3/4"
-        />
-        <button
-          className="bg-blue-500 py-1 px-4 cursor-pointer text-white"
-          onClick={handleAdd}
-        >
-          Add
-        </button>
-      </div>
-      <ul>
-        {tasks.map((task) => (
-          <li
-            key={task.id}
-            className="border-b border-gray-100 py-2 flex justify-between"
+    <div className={`section section-${theme}`}>
+      <h2 className="">Day 3</h2>
+      <div className="Todo w-lg m-auto pt-5">
+        <div className="uppercase text-xs mb-1">
+          {isSaving ? "Saving" : "Saved"}
+        </div>
+        <div className="flex justify-between bg-gray-100 p-3 mb-2">
+          {" "}
+          <input
+            value={newText}
+            onChange={(e) => setNewText(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAdd()}
+            placeholder="Add Task"
+            className="w-3/4"
+          />
+          <button
+            className="bg-blue-500 py-1 px-4 cursor-pointer text-white"
+            onClick={handleAdd}
           >
-            <div>
-              <input
-                onChange={() => updateCompleteStatus(task.id)}
-                type="checkbox"
-                checked={task.completed}
-              />{" "}
-              <span
-                className={
-                  task.completed
-                    ? "line-through decoration-red-900 decoration-4"
-                    : ""
-                }
-              >
-                {task.text}
-              </span>
-            </div>
-            <button
-              onClick={() => deleteTask(task.id)}
-              className="text-sm text-red-500 cursor-pointer"
+            Add
+          </button>
+        </div>
+        <ul>
+          {tasks.map((task) => (
+            <li
+              key={task.id}
+              className="border-b border-gray-100 py-2 flex justify-between"
             >
-              Delete
-            </button>
-          </li>
-        ))}
-      </ul>
+              <div>
+                <input
+                  onChange={() => updateCompleteStatus(task.id)}
+                  type="checkbox"
+                  checked={task.completed}
+                />{" "}
+                <span
+                  className={
+                    task.completed
+                      ? "line-through decoration-red-900 decoration-4"
+                      : ""
+                  }
+                >
+                  {task.text}
+                </span>
+              </div>
+              <button
+                onClick={() => deleteTask(task.id)}
+                className="text-sm text-red-500 cursor-pointer"
+              >
+                Delete
+              </button>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

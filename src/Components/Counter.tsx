@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ThemeContext } from "../App";
 /**
  * Counter with useState
       Concepts: useState, event handling
@@ -11,6 +12,7 @@ import { useState } from "react";
  */
 export default function Counter() {
   const [count, setCount] = useState(0);
+  const { theme, setTheme } = useContext(ThemeContext);
 
   function increment() {
     setCount((count) => count + 1);
@@ -28,27 +30,30 @@ export default function Counter() {
   }
 
   return (
-    <div className="Counter">
-      <h2 className="Counter-count">{count}</h2>
-      <div className="Counter-buttons">
-        <button
-          type="button"
-          onClick={decrement}
-          disabled={count === 0}
-          aria-label="Decrease count by one"
-        >
-          -
-        </button>
-        <button
-          type="button"
-          onClick={increment}
-          aria-label="Increase count by one"
-        >
-          +
-        </button>
-        <button type="button" onClick={reset}>
-          Reset
-        </button>
+    <div className={`section section-${theme}`}>
+      <h2>Day 2</h2>
+      <div className="Counter">
+        <h2 className="Counter-count">{count}</h2>
+        <div className="Counter-buttons">
+          <button
+            type="button"
+            onClick={decrement}
+            disabled={count === 0}
+            aria-label="Decrease count by one"
+          >
+            -
+          </button>
+          <button
+            type="button"
+            onClick={increment}
+            aria-label="Increase count by one"
+          >
+            +
+          </button>
+          <button type="button" onClick={reset}>
+            Reset
+          </button>
+        </div>
       </div>
     </div>
   );
