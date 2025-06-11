@@ -8,6 +8,9 @@
 	- Goal: Ensure you understand how to pass and use props, and how JSX translates to JavaScript function calls.
  */
 
+import { useContext } from "react";
+import { ThemeContext } from "../App";
+
 type GreetingProps = {
   greet?: string;
   name: string;
@@ -20,10 +23,14 @@ export default function Greeting({
   isLoggedIn = false,
 }: GreetingProps) {
   const isFriendlyHello = greet.toLowerCase() == "hello";
+  const { theme, setTheme } = useContext(ThemeContext);
   return (
-    <h1>
-      {greet}, {name} {isFriendlyHello ? "👋🏾" : ""}
-      {isLoggedIn ? "" : "(Please log in)"}
-    </h1>
+    <div className={`section section-${theme}`}>
+      <h2 className="">Day 1</h2>
+      <h1>
+        {greet}, {name} {isFriendlyHello ? "👋🏾" : ""}
+        {isLoggedIn ? "" : "(Please log in)"}
+      </h1>
+    </div>
   );
 }

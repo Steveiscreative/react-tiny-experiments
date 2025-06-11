@@ -32,7 +32,10 @@
     animation: logo-spin infinite 20s linear;
   }
 }
-
+.section-dark {
+  background: black;
+  color: white;
+}
 .section {
   @apply h-screen flex align-middle flex-col justify-center-safe;
   padding: 6rem;
