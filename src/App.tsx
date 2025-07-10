@@ -6,11 +6,14 @@ import RandomUser from "./Components/RandomUser";
 import { createContext, useContext, useState } from "react";
 import ThemeToggle from "./Components/ThemeToggle";
 import SiteHeader from "./Components/Header";
+import useWindowSize from "./hooks/useWindowSize";
 
 export const ThemeContext = createContext(null);
 
 function App() {
   const [theme, setTheme] = useState("dark");
+  const win = useWindowSize();
+  console.log(win.height);
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
       <SiteHeader />
