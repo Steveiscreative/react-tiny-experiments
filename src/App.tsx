@@ -7,6 +7,7 @@ import { createContext, useContext, useState } from "react";
 import ThemeToggle from "./Components/ThemeToggle";
 import SiteHeader from "./Components/Header";
 import useWindowSize from "./hooks/useWindowSize";
+import CounterR from "./Components/CounterReducer";
 
 export const ThemeContext = createContext(null);
 
@@ -25,6 +26,7 @@ function App() {
         </div>
       )}
       <Counter />
+      <CounterR />
 
       <TodoApp />
 
