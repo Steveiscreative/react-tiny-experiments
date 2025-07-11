@@ -1,22 +1,27 @@
 import { useReducer } from "react";
+type State = { count: number };
+type Action = { type: "increment" | "decrement" | "reset" };
 
-function counterReducer(state, action) {
-  if (action.type === "increment") {
-    return {
-      ...state,
-      count: state.count + 1,
-    };
-  } else if (action.type === "decrement") {
-    return {
-      ...state,
-      count: state.count > 0 ? state.count - 1 : state.count,
-    };
-  } else if (action.type === "reset") {
-    return {
-      ...state,
-      count: 0,
-    };
+function counterReducer(state: State, action: Action) {
+  switch (action.type) {
+    case "increment":
+      return {
+        ...state,
+        count: state.count + 1,
+      };
+
+    case "decrement":
+      return {
+        ...state,
+        count: Math.max(0, state.count - 1),
+      };
+    case "reset":
+      return {
+        ...state,
+        count: 0,
+      };
   }
+
   throw Error("Unknown action " + action.type);
 }
 
@@ -31,7 +36,9 @@ export default function CounterR() {
           <button
             type="button"
             onClick={() => {
-              dispatch({ type: "decrement" });
+              if (state.count > 0) {
+                dispatch({ type: "decrement" });
+              }
             }}
             disabled={state.count === 0}
             aria-label="Decrease count by one"
@@ -50,7 +57,9 @@ export default function CounterR() {
           <button
             type="button"
             onClick={() => {
-              dispatch({ type: "reset" });
+              if (state.count > 0 && window.confirm("Are you sure?")) {
+                dispatch({ type: "reset" });
+              }
             }}
           >
             Reset
