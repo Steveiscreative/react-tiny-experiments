@@ -19,6 +19,11 @@ function App() {
       <SiteHeader />
 
       <Greeting greet="Hello" name="Steve" isLoggedIn={true} />
+      {win.width < 600 && (
+        <div className="mobile-warning">
+          <p>Mobile view is not supported. Please use a larger screen.</p>
+        </div>
+      )}
       <Counter />
 
       <TodoApp />
